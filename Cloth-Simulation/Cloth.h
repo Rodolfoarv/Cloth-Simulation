@@ -21,6 +21,7 @@ public:
 	void addForce(const Vec3 direction);
 	void drawShaded();
 	void timeStep();
+	void addForce();
 	
 };
 
