@@ -31,7 +31,7 @@ Cloth::Cloth(float width, float height, int num_particles_width, int num_particl
 		}
 	}
 
-	// Connecting immediate neighbor particles with constraints (distance 1 and sqrt(2) in the grid)
+	// Connecting the immediate neighbor particles with the constraints
 	for (int x = 0; x<num_particles_width; x++)
 	{
 		for (int y = 0; y<num_particles_height; y++)
@@ -43,7 +43,21 @@ Cloth::Cloth(float width, float height, int num_particles_width, int num_particl
 		}
 	}
 
-	// making the upper left most three and right most three particles unmovable
+	// Connecting secondary neighbors with the constraints
+	for (int x = 0; x<num_particles_width; x++)
+	{
+		for (int y = 0; y<num_particles_height; y++)
+		{
+			if (x<num_particles_width - 2) makeConstraint(getParticle(x, y), getParticle(x + 2, y));
+			if (y<num_particles_height - 2) makeConstraint(getParticle(x, y), getParticle(x, y + 2));
+			if (x<num_particles_width - 2 && y<num_particles_height - 2) makeConstraint(getParticle(x, y), getParticle(x + 2, y + 2));
+			if (x<num_particles_width - 2 && y<num_particles_height - 2) makeConstraint(getParticle(x + 2, y), getParticle(x, y + 2));
+		}
+	}
+
+
+
+	// These will be the pins
 	for (int i = 0; i<3; i++)
 	{
 		//In order to make the particle to hang more on the center
