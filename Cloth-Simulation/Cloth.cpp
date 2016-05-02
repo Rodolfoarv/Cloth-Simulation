@@ -3,6 +3,8 @@
 #include <GL/glut.h> 
 #include <GL/gl.h>
 
+#define CONSTRAINT_ITERATIONS 15 // How rigid and how soft the cloth will be 
+
 
 
 Cloth::Cloth()
@@ -139,5 +141,23 @@ void Cloth::drawShaded(){
 	}
 
 	glEnd();
+}
+
+void Cloth::timeStep()
+{
+	std::vector<Constraint>::iterator constraint;
+	for (int i = 0; i<CONSTRAINT_ITERATIONS; i++) // iterate over all constraints several times
+	{
+		for (constraint = constraints.begin(); constraint != constraints.end(); constraint++)
+		{
+			(*constraint).satisfyConstraint(); // satisfy constraint.
+		}
+	}
+
+	std::vector<Particle>::iterator particle;
+	for (particle = particles.begin(); particle != particles.end(); particle++)
+	{
+		(*particle).timeStep(); // calculate the position of each particle at the next time step.
+	}
 }
 
