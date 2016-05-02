@@ -9,6 +9,7 @@ private:
 	int num_particles_height; // number of particles in "height" direction
 	std::vector<Particle> particles;
 	std::vector<Constraint> constraints;
+	void makeConstraint(Particle *p1, Particle *p2);
 
 
 
