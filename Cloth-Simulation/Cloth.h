@@ -2,8 +2,6 @@
 #include <vector>
 #include "Particle.h"
 #include "Constraint.h"
-#include <GL/gl.h>
-#include <GL/glut.h> 
 class Cloth
 {
 private:
@@ -22,6 +20,7 @@ public:
 	Cloth(float width, float height, int num_particles_width, int num_particles_height);
 	void addForce(const Vec3 direction);
 	void drawShaded();
+	void timeStep();
 	
 };
 
