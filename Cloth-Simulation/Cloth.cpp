@@ -30,6 +30,18 @@ Cloth::Cloth(float width, float height, int num_particles_width, int num_particl
 		}
 	}
 
+	// Connecting immediate neighbor particles with constraints (distance 1 and sqrt(2) in the grid)
+	for (int x = 0; x<num_particles_width; x++)
+	{
+		for (int y = 0; y<num_particles_height; y++)
+		{
+			if (x<num_particles_width - 1) makeConstraint(getParticle(x, y), getParticle(x + 1, y));
+			if (y<num_particles_height - 1) makeConstraint(getParticle(x, y), getParticle(x, y + 1));
+			if (x<num_particles_width - 1 && y<num_particles_height - 1) makeConstraint(getParticle(x, y), getParticle(x + 1, y + 1));
+			if (x<num_particles_width - 1 && y<num_particles_height - 1) makeConstraint(getParticle(x + 1, y), getParticle(x, y + 1));
+		}
+	}
+
 	// making the upper left most three and right most three particles unmovable
 	for (int i = 0; i<3; i++)
 	{
