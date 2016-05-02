@@ -1,7 +1,8 @@
 #include "Cloth.h"
-#include <GL/gl.h>
-#include <GL/glut.h> 
 #include <math.h>
+#include <GL/glut.h> 
+#include <GL/gl.h>
+
 
 
 Cloth::Cloth()
@@ -28,6 +29,19 @@ Vec3 calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3)
 	return v1.cross(v2);
 }
 
+void drawTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 color)
+{
+	glColor3fv((GLfloat*)&color);
+
+	glNormal3fv((GLfloat *)&(p1->getNormal().normalized()));
+	glVertex3fv((GLfloat *)&(p1->getPos()));
+
+	glNormal3fv((GLfloat *)&(p2->getNormal().normalized()));
+	glVertex3fv((GLfloat *)&(p2->getPos()));
+
+	glNormal3fv((GLfloat *)&(p3->getNormal().normalized()));
+	glVertex3fv((GLfloat *)&(p3->getPos()));
+}
 
 Cloth::Cloth(float width, float height, int num_particles_width, int num_particles_height)
 	: num_particles_width(num_particles_width), num_particles_height(num_particles_height)
@@ -108,7 +122,6 @@ void Cloth::drawShaded(){
 			getParticle(x, y + 1)->addToNormal(normal);
 		}
 	}
-
 	glBegin(GL_TRIANGLES);
 	for (int x = 0; x<num_particles_width - 1; x++)
 	{

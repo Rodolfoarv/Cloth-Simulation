@@ -14,7 +14,7 @@ private:
 	void makeConstraint(Particle *p1, Particle *p2);
 	Particle* getParticle(int x, int y);
 	Vec3 calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3);
-
+	void drawTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 color);
 
 public:
 	Cloth();
