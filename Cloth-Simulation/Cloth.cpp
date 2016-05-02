@@ -11,6 +11,7 @@ Cloth::~Cloth()
 }
 
 Particle* Cloth::getParticle(int x, int y) { return &particles[y*num_particles_width + x]; }
+void Cloth::makeConstraint(Particle *p1, Particle *p2) { constraints.push_back(Constraint(p1, p2)); }
 
 
 Cloth::Cloth(float width, float height, int num_particles_width, int num_particles_height)
