@@ -1,4 +1,7 @@
 #include "Cloth.h"
+#include <GL/gl.h>
+#include <GL/glut.h> 
+#include <math.h>
 
 
 Cloth::Cloth()
@@ -12,6 +15,18 @@ Cloth::~Cloth()
 
 Particle* Cloth::getParticle(int x, int y) { return &particles[y*num_particles_width + x]; }
 void Cloth::makeConstraint(Particle *p1, Particle *p2) { constraints.push_back(Constraint(p1, p2)); }
+
+Vec3 calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3)
+{
+	Vec3 pos1 = p1->getPos();
+	Vec3 pos2 = p2->getPos();
+	Vec3 pos3 = p3->getPos();
+
+	Vec3 v1 = pos2 - pos1;
+	Vec3 v2 = pos3 - pos1;
+
+	return v1.cross(v2);
+}
 
 
 Cloth::Cloth(float width, float height, int num_particles_width, int num_particles_height)
@@ -69,4 +84,47 @@ Cloth::Cloth(float width, float height, int num_particles_width, int num_particl
 
 }
 
+void Cloth::drawShaded(){
+
+	//Reset the normals
+	std::vector<Particle>::iterator particle;
+	for (particle = particles.begin(); particle != particles.end(); particle++)
+	{
+		(*particle).resetNormal();
+	}
+
+	for (int x = 0; x<num_particles_width - 1; x++)
+	{
+		for (int y = 0; y<num_particles_height - 1; y++)
+		{
+			Vec3 normal = calcTriangleNormal(getParticle(x + 1, y), getParticle(x, y), getParticle(x, y + 1));
+			getParticle(x + 1, y)->addToNormal(normal);
+			getParticle(x, y)->addToNormal(normal);
+			getParticle(x, y + 1)->addToNormal(normal);
+
+			normal = calcTriangleNormal(getParticle(x + 1, y + 1), getParticle(x + 1, y), getParticle(x, y + 1));
+			getParticle(x + 1, y + 1)->addToNormal(normal);
+			getParticle(x + 1, y)->addToNormal(normal);
+			getParticle(x, y + 1)->addToNormal(normal);
+		}
+	}
+
+	glBegin(GL_TRIANGLES);
+	for (int x = 0; x<num_particles_width - 1; x++)
+	{
+		for (int y = 0; y<num_particles_height - 1; y++)
+		{
+			Vec3 color(0, 0, 0);
+			if (x % 2) // red and white color is interleaved according to which column number
+				color = Vec3(0.6f, 0.2f, 0.2f);
+			else
+				color = Vec3(1.0f, 1.0f, 1.0f);
+
+			drawTriangle(getParticle(x + 1, y), getParticle(x, y), getParticle(x, y + 1), color);
+			drawTriangle(getParticle(x + 1, y + 1), getParticle(x + 1, y), getParticle(x, y + 1), color);
+		}
+	}
+
+	glEnd();
+}
 
