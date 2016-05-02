@@ -17,7 +17,7 @@ public:
 	~Cloth();
 	Cloth(float width, float height, int num_particles_width, int num_particles_height);
 	void addForce(const Vec3 direction);
-
+	Particle* getParticle(int x, int y);
 };
 
 
