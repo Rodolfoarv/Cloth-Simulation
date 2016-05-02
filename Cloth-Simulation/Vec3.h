@@ -1,9 +1,8 @@
 #pragma once
 class Vec3
 {
-private:
-	float f[3];
 public:
+	float f[3];
 	Vec3();
 	~Vec3();
 
