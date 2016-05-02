@@ -19,7 +19,7 @@ Cloth::~Cloth()
 Particle* Cloth::getParticle(int x, int y) { return &particles[y*num_particles_width + x]; }
 void Cloth::makeConstraint(Particle *p1, Particle *p2) { constraints.push_back(Constraint(p1, p2)); }
 
-Vec3 calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3)
+Vec3 Cloth::calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3)
 {
 	Vec3 pos1 = p1->getPos();
 	Vec3 pos2 = p2->getPos();
@@ -31,7 +31,7 @@ Vec3 calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3)
 	return v1.cross(v2);
 }
 
-void drawTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 color)
+void Cloth::drawTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 color)
 {
 	glColor3fv((GLfloat*)&color);
 
@@ -161,3 +161,13 @@ void Cloth::timeStep()
 	}
 }
 
+/* used to add gravity (or any other arbitrary vector) to all particles*/
+void Cloth::addForce(const Vec3 direction)
+{
+	std::vector<Particle>::iterator particle;
+	for (particle = particles.begin(); particle != particles.end(); particle++)
+	{
+		(*particle).addForce(direction); // add the forces to each particle
+	}
+
+}
