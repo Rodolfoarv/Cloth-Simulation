@@ -10,7 +10,7 @@ private:
 	std::vector<Particle> particles;
 	std::vector<Constraint> constraints;
 	void makeConstraint(Particle *p1, Particle *p2);
-
+	Particle* getParticle(int x, int y);
 
 
 public:
@@ -18,7 +18,7 @@ public:
 	~Cloth();
 	Cloth(float width, float height, int num_particles_width, int num_particles_height);
 	void addForce(const Vec3 direction);
-	Particle* getParticle(int x, int y);
+	
 };
 
 
