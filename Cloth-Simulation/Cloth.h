@@ -9,10 +9,11 @@ private:
 	int num_particles_height; // number of particles in "height" direction
 	std::vector<Particle> particles;
 	std::vector<Constraint> constraints;
-	void makeConstraint(Particle *p1, Particle *p2);
 	Particle* getParticle(int x, int y);
+	void makeConstraint(Particle *p1, Particle *p2);
 	Vec3 calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3);
 	void drawTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 color);
+	void addWindForcesForEachTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 direction);
 
 public:
 	Cloth();
