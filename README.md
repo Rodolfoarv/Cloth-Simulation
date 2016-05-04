@@ -24,6 +24,11 @@ Once the app has been loaded, you can access the functions within the program.
 
 ## References
 
+## TODO
+
+- Add ball collision
+- Add movement with camera
+- Add background
 
 ## License
 
