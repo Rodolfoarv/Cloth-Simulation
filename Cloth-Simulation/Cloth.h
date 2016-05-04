@@ -23,6 +23,7 @@ public:
 	void drawShaded();
 	void timeStep();
 	void addForce();
+	void windForce(const Vec3 direction);
 	
 };
 
