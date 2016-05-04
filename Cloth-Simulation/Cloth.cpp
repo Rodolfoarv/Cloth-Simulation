@@ -31,6 +31,16 @@ Vec3 Cloth::calcTriangleNormal(Particle *p1, Particle *p2, Particle *p3)
 	return v1.cross(v2);
 }
 
+void Cloth::addWindForcesForEachTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 direction)
+{
+	Vec3 normal = calcTriangleNormal(p1, p2, p3);
+	Vec3 d = normal.normalized();
+	Vec3 force = normal*(d.dot(direction));
+	p1->addForce(force);
+	p2->addForce(force);
+	p3->addForce(force);
+}
+
 void Cloth::drawTriangle(Particle *p1, Particle *p2, Particle *p3, const Vec3 color)
 {
 	glColor3fv((GLfloat*)&color);
@@ -129,11 +139,7 @@ void Cloth::drawShaded(){
 	{
 		for (int y = 0; y<num_particles_height - 1; y++)
 		{
-			Vec3 color(0, 0, 0);
-			if (x % 2) // red and white color is interleaved according to which column number
-				color = Vec3(0.6f, 0.2f, 0.2f);
-			else
-				color = Vec3(1.0f, 1.0f, 1.0f);
+			Vec3 color(0.6f, 0.2f, 0.2f);
 
 			drawTriangle(getParticle(x + 1, y), getParticle(x, y), getParticle(x, y + 1), color);
 			drawTriangle(getParticle(x + 1, y + 1), getParticle(x + 1, y), getParticle(x, y + 1), color);
