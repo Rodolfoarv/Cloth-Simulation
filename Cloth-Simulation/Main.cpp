@@ -41,7 +41,7 @@ void draw(void){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	glDisable(GL_LIGHTING); // drawing some smooth shaded background - because I like it ;)
+	glDisable(GL_LIGHTING); 
 	glBegin(GL_POLYGON);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glVertex3f(-200.0f, -100.0f, -100.0f);
@@ -52,9 +52,9 @@ void draw(void){
 	glEnd();
 	glEnable(GL_LIGHTING);
 
-	glTranslatef(-6.5, 6, -9.0f); // move camera out and center on the cloth
-	glRotatef(12, 0, 1, 0); // rotate a bit to see the cloth from the side
-	cloth1.drawShaded(); // finally draw the cloth with smooth shading
+	glTranslatef(-6.5, 6, -9.0f); 
+	glRotatef(12, 0, 1, 0); 
+	cloth1.drawShaded(); 
 
 	glutSwapBuffers();
 	glutPostRedisplay();
