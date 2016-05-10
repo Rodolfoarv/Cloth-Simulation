@@ -7,6 +7,11 @@
 #define TIME_STEPSIZE2 0.5*0.5 // how large time step each particle takes each frame
 
 Cloth cloth1(14, 10, 55, 45); 
+Vec3 ball_pos(7, -5, 0); // the center of our one ball
+float ball_radius = 2; // the radius of our one ball
+float ballPos_z = 0; // counter for used to calculate the z position of the ball below
+float ballPos_x = 0; // counter for used to calculate the x position of the ball below
+
 
 void init(GLvoid)
 {
@@ -56,6 +61,14 @@ void draw(void){
 	glRotatef(12, 0, 1, 0); 
 	cloth1.drawShaded(); 
 
+	//BALL
+	//glPushMatrix(); // to draw the ball we use glutSolidSphere, and need to draw the sphere at the position of the ball
+	glTranslatef(ball_pos.f[0], ball_pos.f[1], ball_pos.f[2]); // hence the translation of the sphere onto the ball position
+	glColor3f(1, 1, 1);
+	glutSolidSphere(ball_radius , 50, 50); // draw the ball, but with a slightly lower radius, otherwise we could get ugly visual artifacts of cloth penetrating the ball slightly
+	//glPopMatrix();
+
+
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
@@ -69,6 +82,7 @@ void displayForces(void){
 void display(void)
 {
 	// calculating positions
+
 	displayForces();
 	draw();
 }
@@ -92,6 +106,27 @@ void keyboard(unsigned char key, int x, int y)
 	case 27:
 		exit(0);
 		break;
+	case 97:
+		//A
+		ballPos_x--;
+		ball_pos.f[0] = cos(ballPos_x / 50.0) * 7;
+		break;
+	case 100:
+		//D
+		ballPos_x++;
+		ball_pos.f[0] = cos(ballPos_x / 50.0) * 7;
+		break;
+	case 119:
+		//W
+		ballPos_z++;
+		ball_pos.f[2] = cos(ballPos_z / 50.0) * 7;
+		break;
+	case 115:
+		//S
+		ballPos_z--;
+		ball_pos.f[2] = cos(ballPos_z / 50.0) * 7;
+		break;
+
 	default:
 		break;
 	}
